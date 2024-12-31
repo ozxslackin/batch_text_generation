@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>批量文本生成工具</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>批量文本生成工具</h1>
+
+        <form id="generationForm" class="form-container">
+            <div class="form-group">
+                <label for="apiKey">API Key:</label>
+                <input type="password" id="apiKey" required>
+            </div>
+
+            <div class="form-group">
+                <label for="apiUrl">API URL:</label>
+                <input type="url" id="apiUrl" required>
+            </div>
+
+            <div class="form-group">
+                <label for="model">Model:</label>
+                <input type="text" id="model" required>
+            </div>
+
+            <div class="form-group">
+                <label for="language">Language:</label>
+                <select id="language" required>
+                    <option value="chinese">中文</option>
+                    <option value="english">English</option>
+                    <option value="thai">ภาษาไทย</option>
+                    <option value="vietnamese">Tiếng Việt</option>
+                    <option value="korean">한국어</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="target">目标数量 (x100):</label>
+                <input type="number" id="target" min="1" value="1" required>
+            </div>
+
+            <button type="submit" id="generateBtn">开始生成</button>
+        </form>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress" id="progressBar"></div>
+            </div>
+            <div id="progressText">0%</div>
+        </div>
+
+        <div class="status-container">
+            <div id="status">准备就绪</div>
+            <div id="currentCount">已生成: 0</div>
+        </div>
+
+        <div class="button-container">
+            <button id="downloadBtn" disabled>下载文本文件</button>
+            <button id="stopBtn" disabled>停止生成</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
