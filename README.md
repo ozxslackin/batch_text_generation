@@ -38,11 +38,9 @@
 
 ```
 // api key
-sk-XzX0XnICKHCBiUWU10A5BaC393224cD295009847Af06C66d
+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
 // api url
-https://freeapi.aiiz.cc/v1/chat/completions
+https://openrouter.ai/api/v1/chat/completions
 // model
-gpt-4-turbo
+google/gemini-2.0-flash-exp:free
 ```
-
-公益Key 有并发限制，使用人数多时可能会出现请求失败的情况，请耐心等待。
