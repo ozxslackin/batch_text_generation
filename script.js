@@ -89,7 +89,8 @@ function generatePrompt(language) {
 3. 表达要自然流畅
 4. 每条文本用两个换行符分隔
 5. 不要带序号或标点符号
-6. 直接输出文本内容，不要有任何其他说明`,
+6. 直接输出文本内容，不要有任何其他说明
+7. 使用中文输出`,
         english: `Character descriptions: ${characterDescriptions}
 
 Generate 100 different praise texts about ${combination.chars.join(' and ')} focusing on ${direction}. Requirements:
@@ -98,7 +99,8 @@ Generate 100 different praise texts about ${combination.chars.join(' and ')} foc
 3. Natural flow
 4. Separate each text with two newlines
 5. No numbers or punctuation marks
-6. Output text content directly without any explanations`,
+6. Output text content directly without any explanations
+7. Use English output`,
         thai: `สำอธิบายตัวละคร: ${characterDescriptions}
 
 สร้างข้อความชื่นชม 100 ข้อความที่แตกต่างกันเกี่ยวกับ ${combination.chars.join(' และ ')} เน้นที่ ${direction} โดยมีข้อกำหนด:
@@ -107,7 +109,8 @@ Generate 100 different praise texts about ${combination.chars.join(' and ')} foc
 3. การไหลเวียนเป็นธรรมชาติ
 4. แยกแต่ละข้อความด้วยการขึ้นบรรทัดใหม่สองครั้ง
 5. ไม่มีตัวเลขหรือเครื่องหมายวรรคตอน
-6. แสดงเนื้อหาข้อความโดยตรงโดยไม่มีคำอธิบายใดๆ`,
+6. แสดงเนื้อหาข้อความโดยตรงโดยไม่มีคำอธิบายใดๆ
+7. ใช้ภาษาไทยออก`,
         vietnamese: `Mô tả nhân vật: ${characterDescriptions}
 
 Tạo 100 văn bản khen ngợi khác nhau về ${combination.chars.join(' và ')} tập trung vào ${direction}. Yêu cầu:
@@ -116,7 +119,8 @@ Tạo 100 văn bản khen ngợi khác nhau về ${combination.chars.join(' và 
 3. Luân chuyển tự nhiên
 4. Phân tách mỗi văn bản bằng hai dòng mới
 5. Không có số hoặc dấu chấm câu
-6. Xuất nội dung văn bản trực tiếp không có bất kỳ giải thích nào`,
+6. Xuất nội dung văn bản trực tiếp không có bất kỳ giải thích nào
+7. Sử dụng tiếng Việt`,
         korean: `캐릭터 설명: ${characterDescriptions}
 
 ${combination.chars.join('와 ')}에 대해 ${direction}에 초점을 맞춘 100개의 다른 칭찬 텍스트를 생성하세요. 요구사항:
@@ -125,7 +129,8 @@ ${combination.chars.join('와 ')}에 대해 ${direction}에 초점을 맞춘 100
 3. 자연스러운 흐름
 4. 각 텍스트를 두 개의 새 줄로 구분
 5. 숫자나 문장 부호 없음
-6. 설명 없이 텍스트 내용을 직접 출력`
+6. 설명 없이 텍스트 내용을 직접 출력
+7. 한국어 출력`,
     };
 
     const selectedPrompt = prompts[language] || prompts.chinese;
