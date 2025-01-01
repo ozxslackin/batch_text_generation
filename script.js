@@ -83,7 +83,7 @@ function generatePrompt(language) {
     const prompts = {
         chinese: `角色说明：${characterDescriptions}
 
-请以${combination.chars.join('和')}为主题，从${direction}的角度，生成100条不同的夸赞文本。每条文本要求：
+请以${combination.chars.join('和')}为主题，从${direction}的角度，生成50条不同的夸赞文本。每条文本要求：
 1. 字数在50-90之间
 2. 内容要积极正面
 3. 表达要自然流畅
@@ -93,7 +93,7 @@ function generatePrompt(language) {
 7. 使用中文输出`,
         english: `Character descriptions: ${characterDescriptions}
 
-Generate 100 different praise texts about ${combination.chars.join(' and ')} focusing on ${direction}. Requirements:
+Generate 50 different praise texts about ${combination.chars.join(' and ')} focusing on ${direction}. Requirements:
 1. 50-90 characters each
 2. Positive content
 3. Natural flow
@@ -103,7 +103,7 @@ Generate 100 different praise texts about ${combination.chars.join(' and ')} foc
 7. Use English output`,
         thai: `สำอธิบายตัวละคร: ${characterDescriptions}
 
-สร้างข้อความชื่นชม 100 ข้อความที่แตกต่างกันเกี่ยวกับ ${combination.chars.join(' และ ')} เน้นที่ ${direction} โดยมีข้อกำหนด:
+สร้างข้อความชื่นชม 50 ข้อความที่แตกต่างกันเกี่ยวกับ ${combination.chars.join(' และ ')} เน้นที่ ${direction} โดยมีข้อกำหนด:
 1. 50-90 ตัวอักษรต่อข้อความ
 2. เนื้อหาเชิงบวก
 3. การไหลเวียนเป็นธรรมชาติ
@@ -113,7 +113,7 @@ Generate 100 different praise texts about ${combination.chars.join(' and ')} foc
 7. ใช้ภาษาไทยออก`,
         vietnamese: `Mô tả nhân vật: ${characterDescriptions}
 
-Tạo 100 văn bản khen ngợi khác nhau về ${combination.chars.join(' và ')} tập trung vào ${direction}. Yêu cầu:
+Tạo 50 văn bản khen ngợi khác nhau về ${combination.chars.join(' và ')} tập trung vào ${direction}. Yêu cầu:
 1. 50-90 ký tự mỗi văn bản
 2. Nội dung tích cực
 3. Luân chuyển tự nhiên
@@ -123,7 +123,7 @@ Tạo 100 văn bản khen ngợi khác nhau về ${combination.chars.join(' và 
 7. Sử dụng tiếng Việt`,
         korean: `캐릭터 설명: ${characterDescriptions}
 
-${combination.chars.join('와 ')}에 대해 ${direction}에 초점을 맞춘 100개의 다른 칭찬 텍스트를 생성하세요. 요구사항:
+${combination.chars.join('와 ')}에 대해 ${direction}에 초점을 맞춘 50개의 다른 칭찬 텍스트를 생성하세요. 요구사항:
 1. 각각 50-90자
 2. 긍정적인 내용
 3. 자연스러운 흐름
@@ -138,8 +138,16 @@ ${combination.chars.join('와 ')}에 대해 ${direction}에 초점을 맞춘 100
     return selectedPrompt;
 }
 
+// 添加检测文本是否包含中文的函数
+function containsChinese(text) {
+    return /[\u4e00-\u9fa5]/.test(text);
+}
+
 // 处理文本分割
 function processGeneratedText(text) {
+    // 获取当前选择的语言
+    const currentLanguage = document.getElementById('language').value;
+
     // 首先尝试用双换行符分割
     let texts = text.split('\n\n');
 
@@ -148,11 +156,17 @@ function processGeneratedText(text) {
         texts = text.split('\n');
     }
 
-    // 移除空文本和处理不完整的最后一行
+    // 移除空文本和处理不完整的最后一行，同时处理语言检查
     texts = texts
         .map(t => t.trim())
         .filter(t => t.length > 0)
         .filter((t, index, array) => {
+            // 如果不是中文模式，检查是否包含中文字符
+            if (currentLanguage !== 'chinese' && containsChinese(t)) {
+                console.log('非中文模式下发现中文文本，已过滤:', t);
+                return false;
+            }
+
             // 如果是最后一行，检查是否完整
             if (index === array.length - 1) {
                 // 如果最后一行明显不完整（比如以逗号或"和"结尾），则移除
@@ -241,6 +255,13 @@ async function generateTexts(apiKey, apiUrl, model, language, target) {
             }
 
             const data = await response.json();
+
+            // 添加数据验证
+            if (!data || !data.choices || !data.choices[0] || !data.choices[0].message || !data.choices[0].message.content) {
+                console.error('API返回数据格式错误:', data);
+                throw new Error('API返回数据格式不正确');
+            }
+
             const newTexts = processGeneratedText(data.choices[0].message.content);
 
             // 记录每次生成的文本数量
